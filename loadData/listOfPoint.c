@@ -108,3 +108,21 @@ void insertLastPoint(ListPoint *l, EltypePoint val)
    (*l).contents[(lengthPoint(*l))] = val;
 }
 
+void displayPoint(Point P){
+    printf("(%d,%d)", P.x, P.y);
+}
+
+boolean inList (ListPoint l, int x, int y){
+    
+    int i =0;
+    boolean found = false;
+    while (i < lengthPoint(l) && !found){
+        if ((l).contents[(i)].x == x && (l).contents[(i)].y == y){
+            found = true;
+        } else {
+            i++;
+        }
+    }
+
+    return found;
+}

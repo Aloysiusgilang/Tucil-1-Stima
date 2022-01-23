@@ -36,8 +36,8 @@ typedef struct {
 
 /* ********** SELEKTOR ********** */
 #define ELMTP(l, i) (l).contents[(i)]
-#define ELMT_X(l, i) (l).contents[(i)][0]
-#define ELMT_Y(l, i) (l).contents[(i)][1]
+#define ELMT_X(l, i) (l).contents[(i)].x
+#define ELMT_Y(l, i) (l).contents[(i)].y
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create List kosong  */
@@ -64,6 +64,7 @@ void displayListPoint(ListPoint l);
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika List kosong : menulis [] */
 
+void displayPoint( Point P);
 
 /* ***  Perhatian : List boleh kosong!! *** */
 int indexOfPoint(ListPoint l, EltypePoint val);
@@ -79,4 +80,5 @@ void insertLastPoint(ListPoint *l, EltypePoint val);
 /* F.S. val adalah elemen terakhir l yang baru */
 /* ********** MENGHAPUS ELEMEN ********** */
 
+boolean inList (ListPoint l, int x, int y);
 #endif

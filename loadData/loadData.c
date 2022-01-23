@@ -31,31 +31,7 @@ void printOutput(ListPoint L, int row, int col,char words[row][col]){
             }
         } printf("\n");
     }
-}
-
-Point searchSameFirstChar (int row, int col, char words[row][col], char* pattern,int* comparison){
-    Point P;
-    int i = 0; int j = 0;
-    boolean match = false;
-    for (i = 0; i < row; i++){
-        for(j = 0; j < col;j++){
-            *comparison++;
-            if (words[i][j] == pattern[0]) {
-                P.x = i;
-                P.y = j;
-                match = true;
-                return P;
-            }
-        }
-    }
-    if (!match){
-        P.x = -1;
-        P.y = -1;
-        return P;
-    } else {
-        return P;
-    }
-
+    printf("\n \n");
 }
 
 void searchKiriKanan (int row,int col,char words[row][col], char* pattern, Point P, int* comparison){
@@ -63,9 +39,9 @@ void searchKiriKanan (int row,int col,char words[row][col], char* pattern, Point
     ListPoint l;
     CreateListPoint(&l);
     int a = P.x; int b = P.y; int c = 0;
-    if (b + strlen(pattern) < col ){
+    if (b + strlen(pattern) -1 < col ){
         boolean equal = true;
-        while (b < (P.y + strlen(pattern))){
+        while (b < (P.y + strlen(pattern)) && equal){
             if (words[a][b] == pattern[c]){
                 insertLastPoint(&l,makePoint(a,b));
                 b++; c++;
@@ -77,9 +53,30 @@ void searchKiriKanan (int row,int col,char words[row][col], char* pattern, Point
             printOutput(l,row,col,words);
         }
     }
-    
+}
+
+// ini di loop sebanyak pattern
+void searchSameFirstChar (int row, int col, char words[row][col], char* pattern,int* comparison){
+    Point P;
+    int i = 0; int j = 0;
+    boolean match = false;
+    for (i = 0; i < row; i++){
+        for(j = 0; j < col;j++){
+            *comparison++;
+            if (words[i][j] == pattern[0]) {
+                P.x = i;
+                P.y = j;
+                match = true;
+                // return P;
+                searchKiriKanan(row,col,words,pattern,P,comparison);
+                // tinggal arah lainnya
+            }
+        }
+    }
 
 }
+
+
 
 
 int main (){
@@ -149,10 +146,9 @@ int main (){
     printf("%c\n", pattern.contents[0][1]);
     printf("%c\n", patternAt(pattern,0,1));
     printf("%d\n", wordLength(pattern,1));
-    Point A = searchSameFirstChar(row,col,words,pattern.contents[4],&comparison);
-    displayPoint(A);
+    searchSameFirstChar(row,col,words,pattern.contents[3],&comparison);
     printf("\n");
-    searchKiriKanan(row,col,words,pattern.contents[4],A,&comparison);
+    // searchKiriKanan(row,col,words,pattern.contents[4],A,&comparison);
 
     return 0;
 

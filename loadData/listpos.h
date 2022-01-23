@@ -138,5 +138,8 @@ void deleteLast(ListPos *l, ElType *val);
 /* F.S. val adalah nilai elemen terakhir l sebelum penghapusan, */
 /*      Banyaknya elemen List berkurang satu */
 /*      List l mungkin menjadi kosong */
+char patternAt (ListPos pattern, int idxW, int idxC);
+int wordLength (ListPos pattern, int idxW);
+
 
 #endif

@@ -3,16 +3,29 @@
 #include "wordmachine.h"
 #include "boolean.h"
 #include "listpos.h"
+#include <string.h>
+#include <stdlib.h>
 
+char* reversedString(char *string)
+{
+    int length = strlen(string);
+    char* reversed = (char*)malloc((length+1) * sizeof(char));
+    for(int i=0;i<length;i++)
+    {
+      reversed[(length-1)-i]=string[i];
+    }
+    reversed[length] = '\0';
+    return reversed;
+}
 
-void load_data (char* filename){
+int main (){
 
-    //KAMUS
+    char* filename = "puzzle.txt";
     int row = 0;int col = 0;int countChar = 0;int countPattern = 0; 
     startWord(filename);
     if (!fileFound) {
         printf("file tidak ditemukan");
-        return;
+        return 0;
     }
     while (currentChar != NEWLINE && eot != 1 && currentChar != MARK) {
         countChar++;
@@ -54,6 +67,7 @@ void load_data (char* filename){
     while (currentChar != MARK){
         countPattern++;
         insertLast(&pattern, KataToString(currentWord));
+        insertLast(&pattern, reversedString(KataToString(currentWord)));
         if (currentChar == NEWLINE) {
             skipNewline();
         }
@@ -61,12 +75,16 @@ void load_data (char* filename){
     }
     printf("patterns:%d\n", countPattern);
     displayList(pattern);
+    printf("\n");
 
-}
+    // element checking
+    printf("%c\n",words[0][7]);
+    printf("%s\n", pattern.contents[0]);
+    printf("%c\n", pattern.contents[0][1]);
+    printf("%c\n", patternAt(pattern,0,1));
+    printf("%d\n", wordLength(pattern,1));
 
-int main (){
 
-    char* filename;
-    load_data("puzzle.txt");
     return 0;
 }
+

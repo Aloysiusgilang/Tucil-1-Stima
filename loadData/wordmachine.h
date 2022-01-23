@@ -49,6 +49,7 @@ void copyWord();
           Jika panjang kata melebihi CAPACITY, maka sisa kata terpotong */
 char KataToChar (Word K);
 char* KataToString (Word K);
+char* KataToStringReversed (Word K);
 
 #endif
 

@@ -103,3 +103,13 @@ char* KataToString (Word K){
    toret[i] = '\0';
    return toret;
 }
+
+char* KataToStringReversed (Word K){
+   char* toret = (char*)malloc(sizeof(char)*(CAPACITY)); 
+   int i ;
+   for (i = K.length - 1; i > 0; i--) {
+         toret[i] = K.contents[i];
+   }
+   toret[i] = '\0';
+   return toret;
+}

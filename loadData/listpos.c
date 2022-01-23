@@ -10,6 +10,7 @@
 
 #include "boolean.h"
 #include "listpos.h"
+#include <string.h>
 #include <stdio.h>
 
 /* ********** KONSTRUKTOR ********** */
@@ -53,6 +54,10 @@ int length(ListPos l)
 
    return count;
    
+}
+
+int wordLength (ListPos pattern, int idxW){
+   return(strlen(pattern.contents[idxW]));
 }
 
 /* ********** Test Indeks yang valid ********** */
@@ -233,4 +238,9 @@ void deleteLast(ListPos *l, ElType *val)
 {
    *val = (*l).contents[length(*l)-1];
    (*l).contents[(length(*l))-1] = VAL_UNDEF;
+}
+
+char patternAt (ListPos pattern, int idxW, int idxC){
+    return pattern.contents[idxW][idxC];
+
 }

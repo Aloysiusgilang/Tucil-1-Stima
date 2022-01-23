@@ -14,7 +14,7 @@
 /* Kapasitas penyimpanan */
 #define IDX_UNDEF -1
 /* Indeks tak terdefinisi*/
-#define VAL_UNDEF '%'
+#define VAL_UNDEF 0
 /* Nilai elemen tak terdefinisi*/
 
 /* Definisi elemen dan koleksi objek */

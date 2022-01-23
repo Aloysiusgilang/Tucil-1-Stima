@@ -4,6 +4,7 @@
 #include "boolean.h"
 #include "listpos.h"
 
+
 void load_data (char* filename){
 
     //KAMUS
@@ -27,8 +28,8 @@ void load_data (char* filename){
     startWord(filename);
     int i = 0; int j = 0;
     while (currentChar != NEWLINE){
-        words[i][j] = KataToChar(currentWord);
         advWord();
+        words[i][j] = KataToChar(currentWord);
         if (currentChar == NEWLINE) {
             skipNewline();
             j = 0;

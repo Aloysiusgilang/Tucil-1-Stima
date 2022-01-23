@@ -3,6 +3,7 @@
 #include "wordmachine.h"
 #include "boolean.h"
 #include "listpos.h"
+#include "listOfPoint.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -63,11 +64,13 @@ int main (){
     skipNewline();
     advWord();
     ListPos pattern;
+    ListPoint arrPoint;
+    CreateListPoint(&arrPoint);
     CreateListPos(&pattern);
     while (currentChar != MARK){
         countPattern++;
         insertLast(&pattern, KataToString(currentWord));
-        insertLast(&pattern, reversedString(KataToString(currentWord)));
+        // insertLast(&pattern, reversedString(KataToString(currentWord)));
         if (currentChar == NEWLINE) {
             skipNewline();
         }
@@ -84,7 +87,11 @@ int main (){
     printf("%c\n", patternAt(pattern,0,1));
     printf("%d\n", wordLength(pattern,1));
 
-
     return 0;
+
+
 }
 
+void searchAtasBawah (char* words[], char* pattern, Point P){
+
+}

@@ -25,7 +25,7 @@ void printOutput(ListPoint L, int row, int col,char words[row][col]){
     for (i = 0; i < row; i++){
         for (j = 0; j<col; j++){
             if (inList(L, i,j)){
-                printf("%c ", words[i][j]);
+                printf(" %c ", words[i][j]);
             } else {
                 printf(" - ");
             }
@@ -48,12 +48,80 @@ void searchKiriKanan (int row,int col,char words[row][col], char* pattern, Point
             } else {
                 equal = false;
             }
+            *comparison++;
         }
         if (equal){
             printOutput(l,row,col,words);
         }
     }
 }
+
+void searchAtasBawah (int row, int col,char words[row][col], char* pattern, Point P, int* comparison){
+
+    ListPoint l;
+    CreateListPoint(&l);
+    int a = P.x; int b = P.y; int c = 0;
+    if (a + strlen(pattern) -1 < row ){
+        boolean equal = true;
+        while (a < (P.x + strlen(pattern)) && equal){
+            if (words[a][b] == pattern[c]){
+                insertLastPoint(&l,makePoint(a,b));
+                a++; c++;
+            } else {
+                equal = false;
+            }
+            *comparison++;
+        }
+        if (equal){
+            printOutput(l,row,col,words);
+        }
+    }
+}
+
+void searchKiriAtasKananBawah (int row, int col,char words[row][col], char* pattern, Point P, int* comparison){
+
+    ListPoint l;
+    CreateListPoint(&l);
+    int a = P.x; int b = P.y; int c = 0;
+    if (a + strlen(pattern) -1 < row && b + strlen(pattern) -1 < col){
+        boolean equal = true;
+        while (a < (P.x + strlen(pattern))&& b < (P.y + strlen(pattern)) && equal){
+            if (words[a][b] == pattern[c]){
+                insertLastPoint(&l,makePoint(a,b));
+                a++; c++; b++;
+            } else {
+                equal = false;
+            }
+            *comparison++;
+        }
+        if (equal){
+            printOutput(l,row,col,words);
+        }
+    }
+}
+
+void searchKiriBawahKananAtas (int row, int col,char words[row][col], char* pattern, Point P, int* comparison){
+
+    ListPoint l;
+    CreateListPoint(&l);
+    int a = P.x; int b = P.y; int c = 0;
+    if (a - strlen(pattern) +1 <= 0 && b + strlen(pattern) -1 <= col){
+        boolean equal = true;
+        while (a >= (P.x - strlen(pattern) + 1)&& b < (P.y + strlen(pattern)) && equal){
+            if (words[a][b] == pattern[c]){
+                insertLastPoint(&l,makePoint(a,b));
+                a--; c++; b++;
+            } else {
+                equal = false;
+            }
+            *comparison++;
+        }
+        if (equal){
+            printOutput(l,row,col,words);
+        }
+    }
+}
+
 
 // ini di loop sebanyak pattern
 void searchSameFirstChar (int row, int col, char words[row][col], char* pattern,int* comparison){
@@ -69,6 +137,9 @@ void searchSameFirstChar (int row, int col, char words[row][col], char* pattern,
                 match = true;
                 // return P;
                 searchKiriKanan(row,col,words,pattern,P,comparison);
+                searchAtasBawah(row,col,words,pattern,P,comparison);
+                searchKiriAtasKananBawah(row,col,words,pattern,P,comparison);
+                searchKiriBawahKananAtas(row,col,words,pattern,P,comparison);
                 // tinggal arah lainnya
             }
         }
@@ -130,7 +201,7 @@ int main (){
     while (currentChar != MARK){
         countPattern++;
         insertLast(&pattern, KataToString(currentWord));
-        // insertLast(&pattern, reversedString(KataToString(currentWord)));
+        insertLast(&pattern, reversedString(KataToString(currentWord)));
         if (currentChar == NEWLINE) {
             skipNewline();
         }
@@ -141,13 +212,12 @@ int main (){
     printf("\n");
 
     // element checking
-    printf("%c\n",words[0][7]);
-    printf("%s\n", pattern.contents[0]);
-    printf("%c\n", pattern.contents[0][1]);
-    printf("%c\n", patternAt(pattern,0,1));
-    printf("%d\n", wordLength(pattern,1));
-    searchSameFirstChar(row,col,words,pattern.contents[3],&comparison);
+    for (i = 0; i < length(pattern);i++){
+        searchSameFirstChar(row,col,words,pattern.contents[i],&comparison);
+    }
+    printf("total comparison : %d ",comparison);
     printf("\n");
+
     // searchKiriKanan(row,col,words,pattern.contents[4],A,&comparison);
 
     return 0;

@@ -6,6 +6,7 @@
 #include "listOfPoint.h"
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 char* reversedString(char *string)
 {
@@ -104,8 +105,8 @@ void searchKiriBawahKananAtas (int row, int col,char words[row][col], char* patt
 
     ListPoint l;
     CreateListPoint(&l);
-    int a = P.x; int b = P.y; int c = 0;
-    if (a - strlen(pattern) +1 <= 0 && b + strlen(pattern) -1 <= col){
+    int a = P.x; int b = P.y; int c = 0; int d = a - strlen(pattern) + 1;
+    if ((d >= 0) && b + strlen(pattern) -1 <= col){
         boolean equal = true;
         while (a >= (P.x - strlen(pattern) + 1)&& b < (P.y + strlen(pattern)) && equal){
             if (words[a][b] == pattern[c]){
@@ -122,38 +123,41 @@ void searchKiriBawahKananAtas (int row, int col,char words[row][col], char* patt
     }
 }
 
-
 // ini di loop sebanyak pattern
-void searchSameFirstChar (int row, int col, char words[row][col], char* pattern,int* comparison){
+void searchSameFirstChar (int row, int col, char words[row][col], char* pattern){
     Point P;
     int i = 0; int j = 0;
     boolean match = false;
+    int comparison = 0;
     for (i = 0; i < row; i++){
         for(j = 0; j < col;j++){
-            *comparison++;
+            comparison++;
             if (words[i][j] == pattern[0]) {
                 P.x = i;
                 P.y = j;
                 match = true;
                 // return P;
-                searchKiriKanan(row,col,words,pattern,P,comparison);
-                searchAtasBawah(row,col,words,pattern,P,comparison);
-                searchKiriAtasKananBawah(row,col,words,pattern,P,comparison);
-                searchKiriBawahKananAtas(row,col,words,pattern,P,comparison);
-                // tinggal arah lainnya
+                searchKiriKanan(row,col,words,pattern,P,&comparison);
+                searchAtasBawah(row,col,words,pattern,P,&comparison);
+                searchKiriAtasKananBawah(row,col,words,pattern,P,&comparison);
+                searchKiriBawahKananAtas(row,col,words,pattern,P,&comparison);
             }
         }
     }
-
 }
-
-
-
 
 int main (){
 
-    char* filename = "puzzle.txt";
-    int row = 0;int col = 0;int countChar = 0;int countPattern = 0;int comparison =0;
+    // char* title;
+    // printf("Word Search Puzzle by Aloysius Gilang\n");
+    // printf("Masukan nama file (small1, small2, small3, medium1, medium2, medium3, large1,large2, large3) + .txt\n");
+    // scanf("%s",&title);
+    // char* filename = "../test/";
+    // strcat(filename,title);
+    // printf("%s\n", filename);
+    
+    char* filename = "../test/medium2.txt";
+    int row = 0;int col = 0;int countChar = 0;int countPattern = 0;
     startWord(filename);
     if (!fileFound) {
         printf("file tidak ditemukan");
@@ -212,10 +216,14 @@ int main (){
     printf("\n");
 
     // element checking
+    clock_t start = clock();
     for (i = 0; i < length(pattern);i++){
-        searchSameFirstChar(row,col,words,pattern.contents[i],&comparison);
+        searchSameFirstChar(row,col,words,pattern.contents[i]);
     }
-    printf("total comparison : %d ",comparison);
+    clock_t end = clock();
+    float time =  (float)(end - start) / CLOCKS_PER_SEC;
+    // printf("total comparison : %d ",comparison);
+    printf("Time elapsed : %f\n", time);
     printf("\n");
 
     // searchKiriKanan(row,col,words,pattern.contents[4],A,&comparison);
